@@ -1,0 +1,8 @@
+{
+    "require": {
+        "automattic/woocommerce": "^3.0",
+        "enqueue/simple-client": "^0.10.9",
+        "enqueue/fs": "^0.10.9",
+        "ssovit/tiktok-api": "^2.0"
+    }
+}

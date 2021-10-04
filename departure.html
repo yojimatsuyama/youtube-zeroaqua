@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.87.0">
+  <title>Dashboard Template · Bootstrap v5.1</title>
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/dashboard/">
+  <!-- thai font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr&display=swap" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="css/dashboard.css" rel="stylesheet">
+  <!-- JQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="loading">
+    <div class='uil-ring-css' style='transform:scale(0.79);'>
+      <div></div>
+    </div>
+  </div>
+
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;width:30%">
+    <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto"></strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        Hello, world! This is a toast message.
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <main class="col-md-12 ms-sm-auto col-lg-12 px-md-12">
+        <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">/departure</h1>
+          <p><a href="#">logout</a></p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <form id="departure_form" action="add" method="POST">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <h2>Destination</h2>
+          <select class="form-select" aria-label="Default select example" name="destination" required>
+            <option value="" selected>---</option>
+            <option value="United States">United States</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="European Union">European Union</option>
+            <option value="Japan">Japan</option>
+            <option value="Singapore">Singapore</option>
+            <!-- <option value="United States Texas">United States Texas</option>
+            <option value="Japan Osaka">Japan Osaka</option> -->
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <h2>Departing Date</h2>
+          <div style="max-width:200px" class="datetimepicker date-width">
+            <input type="date" id="date" value="XXXX-XX-XX" name="departure_date" required>
+            <span></span>
+          </div>
+          <div class="info"></div>
+        </div>
+
+        <div class="col-md-3">
+          <h2>Cut Off Date & Time</h2>
+          <div class="datetimepicker">
+            <input type="date" id="date" value="XXXX-XX-XX" name="cutoff_date" required>
+            <span></span>
+            <input class="time" type="time" id="time" value="xx:xx" name="cutoff_time" required>
+          </div>
+          <div>Agent closing time - 5 Hours (GMT+7)</div>
+        </div>
+
+        <div class="col-md-2 submit">
+          <button type="submit" class="btn btn-primary schedule-submit">Submit</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="container">
+    <div class="row">
+      <div class="table-responsive flight-history">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Destination</th>
+              <th scope="col">Departing Date</th>
+              <th scope="col">Cut off date & time</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody  id="departure-table-body">
+            <!-- <tr>
+              <td>1,001</td>
+              <td>United States Texus</td>
+              <td>3 September 2021</td>
+              <td>2 September 2021 11:00</td>
+              <td><button type="button" class="btn btn-danger schedule-delete">Delete</button></td>
+            </tr>
+            <tr>
+              <td>1,002</td>
+              <td>United States Texus</td>
+              <td>20 September 2021</td>
+              <td>19 September 2021 11:00</td>
+              <td><button type="button" class="btn btn-danger schedule-delete">Delete</button></td>
+            </tr>
+            <tr>
+              <td>1,003</td>
+              <td>Japan Osaka</td>
+              <td>2 September 2021</td>
+              <td>1 September 2021 10:00</td>
+              <td><button type="button" class="btn btn-danger schedule-delete">Delete</button></td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+      </main>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <script src="js/bootstrap.bundle.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
+    integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"
+    integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha"
+    crossorigin="anonymous"></script>
+  <script src="js/dashboard.js"></script>
+
+  <script type="text/javascript">
+    var dateEl = document.getElementById('date');
+    var timeEl = document.getElementById('time');
+
+    document.getElementById('date-output').innerHTML = dateEl.type === 'date';
+    document.getElementById('time-output').innerHTML = timeEl.type === 'time';
+  </script>
+
+  <style>
+    *.hidden {
+      display: none !important;
+    }
+
+    div.loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(16, 16, 16, 0.5);
+      z-index: 100;
+      display: none;
+    }
+
+    @-webkit-keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    @-webkit-keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    @-moz-keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    @-ms-keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    @-moz-keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    @-webkit-keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    @-o-keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    .uil-ring-css {
+      margin: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 200px;
+      height: 200px;
+    }
+
+    .uil-ring-css>div {
+      position: absolute;
+      display: block;
+      width: 160px;
+      height: 160px;
+      top: 20px;
+      left: 20px;
+      border-radius: 80px;
+      box-shadow: 0 6px 0 0 #ffffff;
+      -ms-animation: uil-ring-anim 1s linear infinite;
+      -moz-animation: uil-ring-anim 1s linear infinite;
+      -webkit-animation: uil-ring-anim 1s linear infinite;
+      -o-animation: uil-ring-anim 1s linear infinite;
+      animation: uil-ring-anim 1s linear infinite;
+    }
+  </style>
+
+  <script type="text/javascript">
+    jQuery(function ($) {
+      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      $(document).ready(function(){
+        get_departures();
+      });
+
+      $('#departure_form').submit(function (e) {
+        e.preventDefault();
+        var departure_form = $('#departure_form');
+        var query = departure_form.serializeArray();
+        var destination = query[0]['value'];
+        var departing_date = new Date(query[1]['value']);
+        var departing_date_format = departing_date.getFullYear() + '-' + ('0' + (departing_date.getMonth() + 1)).slice(-2) + '-' + departing_date.getDate();
+        var cutoff_date = new Date(query[2]['value']+' '+query[3]['value']);
+        var cutoff_date_format = cutoff_date.getFullYear() + '-' + ('0' + (cutoff_date.getMonth() + 1)).slice(-2) + '-' + cutoff_date.getDate() + ' ' + time_format(cutoff_date.getHours(), 2) + ':' + time_format(cutoff_date.getMinutes(), 2) + ':00';
+        console.log(departing_date_format);
+        console.log(cutoff_date_format);
+        $(".loading").show();
+        $.ajax({
+          url: departure_form.attr('action'),
+          data: { destination: destination, departing_date: departing_date_format, cutoff_date: cutoff_date_format },
+          type: departure_form.attr('method'),
+          beforeSend: function(xhr){
+          },
+          success: function(res){
+            $('.toast-body').text('new departure added');
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function (toastEl) {
+              return new bootstrap.Toast(toastEl, {delay:5000})
+            })
+            toastList.forEach(toast => toast.show());
+            $('#departure_form')[0].reset();
+            get_departures();
+          },
+          error: function(err){
+            console.log(err['responseText']);
+            $('.toast-body').text('fail to create departure');
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function (toastEl) {
+              return new bootstrap.Toast(toastEl, {delay:5000})
+            })
+            toastList.forEach(toast => toast.show());
+          },
+          complete: function(data){
+            $(".loading").hide();
+          }
+        });
+        return false;
+      });
+
+      function get_departures(){
+        $(".loading").show();
+        
+        $.ajax({
+          url: 'list',
+          type: 'GET',
+          beforeSend: function(xhr){
+          },
+          success: function(res){
+            $('#departure-table-body').html('');
+            
+            const rows = JSON.parse(res);
+            $.each(rows, function (i, row) {
+              console.log(row);
+              var departing_date = new Date(row['departing_date']);
+              var departing_date_format = departing_date.getDate() + ' ' + monthNames[departing_date.getMonth()] + ' ' + departing_date.getFullYear();
+              var cutoff_date = new Date(row['cutoff_date']);
+              var cutoff_date_format = cutoff_date.getDate() + ' ' + monthNames[cutoff_date.getMonth()] + ' ' + cutoff_date.getFullYear() + ' ' + time_format(cutoff_date.getHours(), 2) + ':' + time_format(cutoff_date.getMinutes(), 2);
+              var row_html = '<tr><td>' + row['id'] + '</td><td>' + row['destination'] + '</td><td>' + departing_date_format + '</td><td>' + cutoff_date_format + '</td><td><button type="button" class="btn btn-danger schedule-delete" onclick="delete_departure(' + row['id'] + ')">Delete</button></td></tr>';
+              $('#departure-table-body').append(row_html);
+            });
+          },
+          error: function(err){
+            console.log(err['responseText']);
+            $('.toast-body').text('fail to get departures');
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function (toastEl) {
+              return new bootstrap.Toast(toastEl, {delay:5000})
+            })
+            toastList.forEach(toast => toast.show());
+          },
+          complete: function(data){
+            $(".loading").hide();
+          }
+        });
+      }
+
+      function time_format(time, length = 2){
+        var slice_d = length * (-1);
+        time = ('00' + time).slice(slice_d);
+        return time;
+      }
+
+      window.delete_departure = delete_departure;
+      function delete_departure(id){
+        $(".loading").show();
+
+        $.ajax({
+          url: 'delete',
+          type: 'POST',
+          data: { id: id },
+          beforeSend: function(xhr){
+          },
+          success: function(res){
+            $('.toast-body').text('#'+id+' deleted');
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function (toastEl) {
+              return new bootstrap.Toast(toastEl, {delay:5000})
+            })
+            toastList.forEach(toast => toast.show());
+            get_departures();
+          },
+          error: function(err){
+            console.log(err['responseText']);
+            $('.toast-body').text('fail to delete #'+id);
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function (toastEl) {
+              return new bootstrap.Toast(toastEl, {delay:5000})
+            })
+            toastList.forEach(toast => toast.show());
+          },
+          complete: function(data){
+            $(".loading").hide();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>
+
+<!-- note
+	- remove entry if expired
+	- send email to info@younite.co.th if no next schedule for each destiantion after one is expired
+-->

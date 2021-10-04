@@ -1,0 +1,5 @@
+Header set Cache-Control "private"
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule . index.php [L]

@@ -1,0 +1,773 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.87.0">
+  <title>Dashboard Template · Bootstrap v5.1</title>
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/dashboard/">
+  <!-- thai font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr&display=swap" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="css/dashboard.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="loading">
+    <div class='uil-ring-css' style='transform:scale(0.79);'>
+      <div></div>
+    </div>
+  </div>
+
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11;width:20%">
+    <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto"></strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        Hello, world! This is a toast message.
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <main class="col-md-12 ms-sm-auto col-lg-12 px-md-12">
+        <form id="form" action="/" method="POST">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">/post</h1>
+            <p><a href="#">logout</a></p>
+          </div>
+
+<!--
+          <div class="container mt-3">
+            <div class="row">
+
+              <div class="col-md-12">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon">URL</span>
+                  </div>
+                  <input name="video-url" type="text" class="form-control" placeholder=""
+                    aria-label="video-url" aria-describedby="basic-addon" required>
+                </div>
+              </div>
+            </div>
+          </div>
+-->
+          <div class="container">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <!-- Drop Zone -->
+                <div class="upload-drop-zone" id="drop-zone">
+                  <input type="file" id="upload" style="visibility: hidden; width: 1px; height: 1px" multiple />
+                  <a href="" onclick="document.getElementById('upload').click(); return false">ที่อัพโหลด (Upload)</a>
+                </div>
+
+                <div id="filePreview">
+                </div>
+
+                <!--
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                  <span class="sr-only">60% Complete</span>
+                  </div>
+                </div>
+                -->
+              
+              </div>
+
+              <!-- code from: https://bootsnipp.com/snippets/D7MvX -->
+
+              <!-- Note:
+                post to https://cloudinary.com/ then to youtube
+                its important to post to cloudinary first because download via url doesnt work on cludinary from you tube because youtube doesnt give mp4 format
+
+                we need to use mp 4 for ebay positng, and show youtube on website and for yahoo 
+
+                for cloudinary needs to be find it via sku
+
+                multiple people may use /post page
+                let the user submit when upload is completed to cloudinary, posting to youtube, inserting it to product description can be done at the backend. queue the items in case multiple submit at same time. 
+
+                Be able to drag and move place of images 
+                Be able to deleet images
+                resize image to 490 x 490
+              -->
+
+            </div>
+          </div> <!-- /container -->
+
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-12">
+                <h2>สี (color)</h2>
+                <input name="color-black" type="checkbox" class="btn-check" id="btn-check" autocomplete="off" />
+                <label class="btn btn-black" for="btn-check">ดำ (black)</label>
+
+                <input name="color-white" type="checkbox" class="btn-check" id="btn-check2" autocomplete="off" />
+                <label class="btn btn-white" for="btn-check2">ขาว (white)</label>
+
+                <input name="color-silver" type="checkbox" class="btn-check" id="btn-check3" autocomplete="off" />
+                <label class="btn btn-silver" for="btn-check3">เงิน (silver)</label>
+
+                <input name="color-gold" type="checkbox" class="btn-check" id="btn-gold" autocomplete="off" />
+                <label class="btn btn-gold" for="btn-gold">ทอง (gold)</label>
+
+                <input name="color-copper" type="checkbox" class="btn-check" id="btn-check4" autocomplete="off" />
+                <label class="btn btn-copper" for="btn-check4">ทองแดง (copper)</label>
+
+                <input name="color-yellow" type="checkbox" class="btn-check" id="btn-check5" autocomplete="off" />
+                <label class="btn btn-yellow" for="btn-check5">เหลือง (yellow)</label>
+
+                <input name="color-orange" type="checkbox" class="btn-check" id="btn-check6" autocomplete="off" />
+                <label class="btn btn-orange" for="btn-check6">ส้ม (orange)</label>
+
+                <input name="color-red" type="checkbox" class="btn-check" id="btn-check7" autocomplete="off" />
+                <label class="btn btn-red" for="btn-check7">แดง (red)</label>
+
+                <input name="color-purple" type="checkbox" class="btn-check" id="btn-check8" autocomplete="off" />
+                <label class="btn btn-purple" for="btn-check8">ม่วง (purple)</label>
+
+                <input name="color-blue" type="checkbox" class="btn-check" id="btn-check9" autocomplete="off" />
+                <label class="btn btn-blue" for="btn-check9">น้ำเงิน (blue)</label>
+
+                <input name="color-green" type="checkbox" class="btn-check" id="btn-check10" autocomplete="off" />
+                <label class="btn btn-green" for="btn-check10">เขียว (green)</label>
+
+                <input name="color-turquoise" type="checkbox" class="btn-check" id="btn-check11" autocomplete="off" />
+                <label class="btn btn-turquoise" for="btn-check11">เทอร์ควอยซ์ (turquoise)</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="container mt-3">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">ID (sku)</span>
+
+                    <!-- Note:
+                      1: if ID is duplicated add numeric count (2 for 1st duplicate)
+                      ex: 1R1A -> 1R1A2 -> 1R1A3 -> 1R1A4 -> 1R1A5 and so on...
+                      2: allow to insert multiple ID with comma separated
+                      ex: 1R1A, 1R1B. 1R1C, 1R1D ... create and or dott separate products in woocommerce (ignore space)
+                    -->
+
+                  </div>
+                  <input name="sku" type="text" onkeyup="this.value = this.value.toUpperCase();" class="form-control" placeholder=""
+                    aria-label="id-sku" aria-describedby="basic-addon1" required>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-check form-switch">
+                  <input name="premium" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                  <label class="form-check-label" for="flexSwitchCheckDefault">พรีเมี่ยม (Premium)</label>
+
+                  <!-- Note:
+                    Premium off (male or female):
+                      woocommerce - regular price: 35.00 sale price: 29.95 | JPY: Regular price: 3500 Sales price: 2980 | THB: Regular price: regular price: 350
+                      
+                      *custom filed*
+                      ebay_us | start price: 9.95 buy now price: 35.00
+                      yahoo_auction | start price: 980 buy now price: 3500
+                      yahoo_shopping | 2980
+
+                    Premium on  (male or female)
+                      woocommerce - regular price: 55.00 sale price: 49.95 | JPY: Regular price: 5500 Sales price: 4980 | THB: Regular price: regular price: 950
+
+                      *custom filed*
+                      ebay_us | start price: 19.95 buy now price: 55.00
+                      yahoo_auction | start price: 1980 buy now price: 5500
+                      yahoo_shopping | 4980
+
+                    Premium off (pair):
+                      woocommerce - regular price: 110.00 sale price: 99.95 | JPY: Regular price: 11000 Sales price: 9980 | THB: Regular price: regular price: 1000
+
+                      *custom filed*
+                      ebay_us | start price: 29.95 buy now price: 99.95
+                      yahoo_auction | start price: 2980 buy now price: 11000
+                      yahoo_shopping | 9980
+
+                    Premium on (pair):
+                      woocommerce - regular price: 350.00 sale price: 299.95 | JPY: Regular price: 35000 Sales price: 29800 | THB: Regular price: 9500
+
+                      *custom filed*
+                      ebay_us | start price: 299.95 buy now price: 299.95
+                      yahoo_auction | start price: 29800 buy now price: 29800
+                      yahoo_shopping | 29800
+
+                      *need to add custom field to woocommerce and store those values
+                      https://www.thecreativedev.com/to-create-custom-field-in-woocommerce-products-admin-panel/
+                  -->
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-check form-switch">
+                  <input name="penny" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault2">
+                  <label class="form-check-label" for="flexSwitchCheckDefault2">เริ่ม1บาท (Penny Start)</label>
+
+                  <!--
+                    overwrite price setting above if penny start is selected
+                    Premium off + Penny Start:
+                      woocommerce - regular price: 35.00 sale price: 29.95 | JPY: Regular price: 3500 Sales price: 2980 | THB: Regular price: regular price: 350
+
+                      *custom filed*
+                      ebay_us | start price: 0.01 buy now price: -
+                      yahoo_auction | start price: 1 buy now price: -
+                      yahoo_shopping | -
+
+                    Premium on + Penny Start:
+                      woocommerce - regular price: 350.00 sale price: - | JPY: Regular price: 35000 Sales price: - | THB: Regular price: 12000
+
+                      *custom filed*
+                      ebay_us | start price: 0.01 buy now price: -
+                      yahoo_auction | start price: 1 buy now price: -
+                      yahoo_shopping | -
+
+                      *need to add custom field to woocommerce and store those values
+                      https://www.thecreativedev.com/to-create-custom-field-in-woocommerce-products-admin-panel/
+                  -->
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3">
+                <h2>พิมพ์ (type)</h2>
+
+                <select name="type" class="form-select" aria-label="Default select example">
+                  <option value="15" selected>ปลากัด (Prakat)</option>
+                  <option value="49">ปลากัดหางพระจันทร์ครึ่งดวง (Half Moon)</option>
+                  <option value="50">ปลากัดหางมงกุฎ (Crowntail)</option>
+                  <option value="51">ปลากัดหูช้าง (Dumbo)</option>
+                  <option value="78">ปลากัดทุ่ง (Wild)</option>
+                </select>
+
+              </div>
+              <div class="col-md-3">
+                <h2>ชื่อเล่น (nickname)</h2>
+
+                <select name="nickname" class="form-select" aria-label="Default select example">
+                  <option selected>---</option>
+                  <option value="54">นีโม่ (Nemo)</option>
+                  <option value="55">นีโม่กาแลคซี่ (Nemo Galaxy)</option>
+                  <option value="73">มังกร (Dragon)</option>
+                  <option value="56">แบล็คซามูไร (Black Samurai)</option>
+                  <option value="57">อวตาร (Avatar)</option>
+                  <option value="58">เอเลี่ยน (Alien)</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <h2>เพศ (gender)</h2>
+
+                <select name="gender" class="form-select" aria-label="Default select example">
+                  <option value="1" selected>เพศผู้ (Male)</option>
+                  <option value="2">เพศเมีย (Female)</option>
+                  <option value="3">คู่ (Pair)</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <h2>อายุ (age)</h2>
+                <div class="input-group mb-3">
+                  <input name="age" type="text" class="form-control" placeholder="" aria-label="Recipient's username"
+                    aria-describedby="basic-addon2" required>
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2">เดือน (month)</span>
+                    <!-- Note:
+                      backdate and record brithday ex: if age = 1 , save currecnt date - 30 days 
+                    -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-3 submit">
+                    <input type="submit" class="btn btn-primary"></input>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/bootstrap.bundle.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
+    integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"
+    integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha"
+    crossorigin="anonymous"></script>
+
+  <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+    
+  <!--script src="js/post.js"></script-->
+  <!--script src="js/dashboard.js"></script-->
+
+  <script>
+    $(document).ready(function () {
+      $("#form").submit(function(e) {
+        e.preventDefault();
+        $(".loading").show();
+
+        let req = new XMLHttpRequest();
+        let formData = new FormData($('#form')[0]);
+
+        for(var i = 0; i < document.getElementById("upload").files.length; i++){
+          formData.append("file" + i, document.getElementById("upload").files[i]);
+        }
+        
+        req.open("POST", 'post');
+        req.send(formData);
+
+        req.onreadystatechange = function() {
+          if (req.readyState == XMLHttpRequest.DONE) {
+            $(".loading").hide();
+            console.log(req.responseText);
+            if(req.responseText == 'success'){
+              $('#form')[0].reset();
+              resetFile();
+              $('.toast-body').text('success');
+              var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+              var toastList = toastElList.map(function (toastEl) {
+                return new bootstrap.Toast(toastEl, {delay:5000})
+              })
+              toastList.forEach(toast => toast.show());
+            }else{
+              $('.toast-body').text('failed');
+              var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+              var toastList = toastElList.map(function (toastEl) {
+                return new bootstrap.Toast(toastEl, {delay:5000})
+              })
+              toastList.forEach(toast => toast.show());
+            }
+          }
+        }
+      });
+    });
+  </script>
+
+  <script>
+    + function ($) {
+      'use strict';
+
+      var dt = new DataTransfer();
+      var fileUpload = document.getElementById("upload");
+      var dvPreview = document.getElementById("filePreview");
+
+      var dropZone = document.getElementById('drop-zone');
+
+      window.resetFile = resetFile;
+      function resetFile(ev) {
+        dt.items.clear();
+        fileUpload.onchange();
+      }
+
+      var startUpload = function (files) {
+        console.log(files)
+      }
+
+      dropZone.ondrop = function (e) {
+        e.preventDefault();
+        this.className = 'upload-drop-zone';
+
+        fileUpload.files = e.dataTransfer.files;
+        fileUpload.onchange();
+
+        //startUpload(e.dataTransfer.files)
+      }
+
+      dropZone.ondragover = function () {
+        this.className = 'upload-drop-zone drop';
+        return false;
+      }
+
+      dropZone.ondragleave = function () {
+        this.className = 'upload-drop-zone';
+        return false;
+      }
+
+      fileUpload.onchange = function () {
+        var regex_img = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+        var regex_vid = /^([a-zA-Z0-9\s_\\.\-:])+(.mp4|.mov)$/;
+        for(var i = 0; i < fileUpload.files.length; i++){
+          if(regex_img.test(fileUpload.files[i].name.toLowerCase()) || regex_vid.test(fileUpload.files[i].name.toLowerCase())){
+            dt.items.add(fileUpload.files[i]);
+          }
+        }
+
+        fileUpload.files = dt.files;
+        var count = 0;
+        var divs = [];
+
+        if(fileUpload.files.length == 0){
+          dvPreview.innerHTML = "";
+        }
+
+        for(var i = 0; i < fileUpload.files.length; i++){
+          const file = fileUpload.files[i];
+          const id = i;
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            var div = document.createElement("div");
+            div.classList.add('d-inline-block');
+            div.classList.add('position-relative');
+            div.classList.add('mx-1');
+            div.classList.add('mt-2');
+            div.setAttribute('draggable', true);
+            div.setAttribute('ondrop', 'drop(event, ' + id + ')');
+            div.setAttribute('ondragover', 'allowDrop(event)');
+            div.setAttribute('ondragstart', 'drag(event, ' + id + ')');
+            var img = document.createElement("img");
+            img.height = "136";
+            img.width = "136";
+            if(regex_vid.test(file.name.toLowerCase())){
+              img.src = 'fontawesome-free-5.15.4-web/svgs/solid/video.svg';
+              var span = document.createElement("span");
+              span.classList.add('align-middle');
+              span.classList.add('video-name');
+              span.classList.add('bg-white');
+              span.classList.add('text-center');
+              span.innerHTML = file.name;
+              div.appendChild(span);
+            }else{
+              img.src = e.target.result;
+            }
+            var btn = document.createElement("button");
+            btn.classList.add('align-top');
+            btn.classList.add('img-close-btn');
+            btn.classList.add('btn');
+            btn.classList.add('btn-danger');
+            btn.classList.add('btn-sm');
+            btn.innerHTML = 'X';
+            btn.setAttribute('onclick', 'imgRemove(' + id + ')');
+            div.appendChild(btn);
+            div.appendChild(img);
+            divs[id] = div
+          }
+          reader.onloadend = function(e) {
+            if(++count === fileUpload.files.length){
+              dvPreview.innerHTML = "";
+              for(var i = 0; i < fileUpload.files.length; i++){
+                dvPreview.appendChild(divs[i]);
+              }
+            }
+          }
+          reader.readAsDataURL(file);
+        }
+      }
+
+      window.imgRemove = imgRemove;
+      function imgRemove(index){
+        dt.items.clear();
+        for(var i = 0; i < fileUpload.files.length - 1; i++){
+          if(i < index){
+            dt.items.add(fileUpload.files[i]);
+          }else if(i >= index){
+            dt.items.add(fileUpload.files[i + 1]);
+          }
+        }
+
+        fileUpload.files = new DataTransfer().files;
+        fileUpload.onchange();
+      }
+
+      window.allowDrop = allowDrop;
+      function allowDrop(ev) {
+        ev.preventDefault();
+      }
+      
+      window.drag = drag;
+      function drag(ev, index) {
+        ev.dataTransfer.setData("index", index);
+      }
+      
+      window.drop = drop;
+      function drop(ev, index) {
+        ev.preventDefault();
+        var drag_id = ev.dataTransfer.getData("index");
+        if(index < drag_id){
+          dt.items.clear();
+          for(var i = 0; i < fileUpload.files.length; i++){
+            if(i < index){
+              dt.items.add(fileUpload.files[i]);
+            }else if(i == index){
+              dt.items.add(fileUpload.files[drag_id]);
+            }else if(i > index && i <= drag_id){
+              dt.items.add(fileUpload.files[i-1]);
+            }else if(i > drag_id){
+              dt.items.add(fileUpload.files[i]);
+            }
+          }
+
+          fileUpload.files = new DataTransfer().files;
+          fileUpload.onchange();
+        }else if(drag_id < index){
+          dt.items.clear();
+          for(var i = 0; i < fileUpload.files.length; i++){
+            if(i < drag_id){
+              dt.items.add(fileUpload.files[i]);
+            }else if(i >= drag_id && i < index){
+              dt.items.add(fileUpload.files[i+1]);
+            }else if(i == index){
+              dt.items.add(fileUpload.files[drag_id]);
+            }else if(i > index){
+              dt.items.add(fileUpload.files[i]);
+            }
+          }
+
+          fileUpload.files = new DataTransfer().files;
+          fileUpload.onchange();
+        }else{
+          return;
+        }
+      }
+    }();
+  </script>
+  <style>
+    *.hidden {
+      display: none !important;
+    }
+
+    div.loading{
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(16, 16, 16, 0.5);
+      z-index: 100;
+      display: none;
+    }
+
+    @-webkit-keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @-webkit-keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @-moz-keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @-ms-keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @-moz-keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @-webkit-keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @-o-keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @keyframes uil-ring-anim {
+      0% {
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    .uil-ring-css {
+      margin: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 200px;
+      height: 200px;
+    }
+    .uil-ring-css > div {
+      position: absolute;
+      display: block;
+      width: 160px;
+      height: 160px;
+      top: 20px;
+      left: 20px;
+      border-radius: 80px;
+      box-shadow: 0 6px 0 0 #ffffff;
+      -ms-animation: uil-ring-anim 1s linear infinite;
+      -moz-animation: uil-ring-anim 1s linear infinite;
+      -webkit-animation: uil-ring-anim 1s linear infinite;
+      -o-animation: uil-ring-anim 1s linear infinite;
+      animation: uil-ring-anim 1s linear infinite;
+    }
+  </style>
+</body>
+
+</html>
+
+<!-- other parameters on product data
+	- permalink - zeroaqua.com/product/sku
+	- simple product
+	- manage stock - tick
+	- stock qty 1
+	- allow backorders - do not allow
+	- low stock threshold store-wide threshold (0)
+	- sold individually - tick
+	
+	- linked products - none
+	- Custom fields (show on right side of image with other elemets such as category and tags)
+		- Category | (already shown)
+		- Type | selected value + $nickname if any
+		- Gender | selected value
+		- Age | selected value
+		- Color | selected value (allow multiple)
+	- advaned - none
+	- shipping
+	- weight 200g
+	- size 10cm x 20cm x 6cm
+
+	- add category
+		<option selected>Prakat</option> -> Prakat (HMPK)
+		<option value="1">Half Moon</option> -> Half Moon
+		<option value="2">Crowntail</option> -> Crowntail
+		<option value="3">Dumbo</option> -> Dumbo
+		<option value="3">Wild</option> -> Wild
+		Pair -> Pair
+		<option value="1">Nemo</option> -> Nemo Koi Candy
+		<option value="2">Nemo Candy Galaxy</option> -> Nemo Koi Candy Galaxy
+		<option value="3">Black Samurai</option> -> Black Samurai
+		<option value="3">Avatar</option> -> Avatar
+		<option value="3">Alien</option> -> Alien
+		Premium -> Premium 
+
+	- product short description
+		EN: 100% DOA Money Back Guarantee! Shipping Fee Include Transshipment and Delivery to Your Door Step
+		JP: 【現地直送でも安心】 100%死着保証! 送料には国際発送 + 税関処理 + 国内発送全ての料金が含まれています。  
+	
+	- Generate title:
+		EN: Betta + $type + $nickname (if any) + $gender + $color + Aquarium Live Fish
+		JP: 【現地直送】 ベタ + $type + $nickname (if any) + $gender + $color
+
+	- youtube title:
+		#shorts Betta Aquarium ベタ 熱帯魚 + $sku
+
+	- Generate description
+
+	- other: fetch next shipping date from departure database and insert to description "Next Shipping" Section
+-->
