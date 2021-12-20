@@ -29,20 +29,22 @@ if(!(file_exists('./log/post_worker_'.(new DateTime())->format('Y-m-d').'.log'))
   $log_file = fopen('./log/post_worker_'.(new DateTime())->format('Y-m-d').'.log', "w") or die("can't open file");
   fclose($log_file);
 }
-
+Analog::log('call');
 $router = new AltoRouter();
 
 $router->setBasePath('/post');
 
 $router->map( "GET", "/", function() {
+  Analog::log('alto');
   require __DIR__ . '/post.html';
 });
 
 $router->map( "GET", "/youtube/auth", function() {
+  Analog::log('test');
   $client = new Google_Client();
   $client->setAuthConfig('client_secret.json');
   $client->addScope(Google_Service_YouTube::YOUTUBE_FORCE_SSL);
-  $client->setRedirectUri('https://zeroaqua.com/post/youtube/auth/callback');
+  $client->setRedirectUri('https://cms.zeroaqua.com/post/youtube/auth/callback');
   // offline access will give you both an access and refresh token so that
   // your app can refresh the access token without user interaction.
   $client->setAccessType('offline');
@@ -59,7 +61,7 @@ $router->map( "GET", "/youtube/auth/", function() {
   $client = new Google_Client();
   $client->setAuthConfig('client_secret.json');
   $client->addScope(Google_Service_YouTube::YOUTUBE_FORCE_SSL);
-  $client->setRedirectUri('https://zeroaqua.com/post/youtube/auth/callback');
+  $client->setRedirectUri('https://cms.zeroaqua.com/post/youtube/auth/callback');
   // offline access will give you both an access and refresh token so that
   // your app can refresh the access token without user interaction.
   $client->setAccessType('offline');
@@ -76,7 +78,7 @@ $router->map( "GET", "/youtube/auth/callback", function() {
   $client = new Google_Client();
   $client->setAuthConfig('client_secret.json');
   $client->addScope(Google_Service_YouTube::YOUTUBE_FORCE_SSL);
-  $client->setRedirectUri('https://zeroaqua.com/post/youtube/auth/callback');
+  $client->setRedirectUri('https://cms.zeroaqua.com/post/youtube/auth/callback');
   // offline access will give you both an access and refresh token so that
   // your app can refresh the access token without user interaction.
   $client->setAccessType('offline');
@@ -100,7 +102,7 @@ $router->map( "GET", "/youtube/auth/callback/", function() {
   $client = new Google_Client();
   $client->setAuthConfig('client_secret.json');
   $client->addScope(Google_Service_YouTube::YOUTUBE_FORCE_SSL);
-  $client->setRedirectUri('https://zeroaqua.com/post/youtube/auth/callback');
+  $client->setRedirectUri('https://cms.zeroaqua.com/post/youtube/auth/callback');
   // offline access will give you both an access and refresh token so that
   // your app can refresh the access token without user interaction.
   $client->setAccessType('offline');
@@ -120,20 +122,36 @@ $router->map( "GET", "/youtube/auth/callback/", function() {
   }
 });
 
-/*$router->map( "GET", "/test", function() {
-  $google_client = new Google_Client();
-  $google_client->setAuthConfig('client_secret.json');
-  $google_client->setAccessType('offline');
-  $google_client->setApprovalPrompt('force');
-  $google_client->setAccessToken(file_get_contents('youtube_accesstoken.txt'));
-  $token = json_decode(file_get_contents('youtube_accesstoken.txt'));
-  $google_client->refreshToken($token->refresh_token);
-  $token = $google_client->getAccessToken();
-  file_put_contents('youtube_accesstoken.txt', json_encode($token));
-  echo var_dump($token);
-});*/
+$router->map( "GET", "/test", function() {
+  /*$url = 'https://vt.tiktok.com/ZSeedNDCn/';
+  $headers = get_headers($url, 1);
+  $full_url = $headers['Location'];
+  echo json_encode($headers['Location']);
+  preg_match_all('/\/video\/([\d]*)/', $full_url, $out);
+  $tiktok_video_id = $out[1][0];
+  //echo json_encode($headers['Location']);
+  //echo json_encode($out);
+  echo json_encode($tiktok_video_id);*/
 
-$router->map( "POST", "/post", function() {
+  /*$client = new Google_Client();
+  $client->setAuthConfig('client_secret.json');
+  $client->setAccessType('offline');
+  $client->setApprovalPrompt('force');
+  $client->setAccessToken(file_get_contents('youtube_accesstoken.txt'));
+
+  if($client->isAccessTokenExpired()) {
+    echo var_dump($client->getAccessToken());
+    $token = json_decode(file_get_contents('youtube_accesstoken.txt'));
+    echo var_dump($token->refresh_token);
+    /*$client->refreshToken($token->refresh_token);
+    $token = $client->getAccessToken();
+    echo var_dump($client->getAccessToken());
+    file_put_contents('youtube_accesstoken.txt', json_encode($token));
+  }*/
+  echo 'test';
+});
+
+$router->map( "POST", "/wordpress", function() {
   if(!(file_exists('./log/post_worker_'.(new DateTime())->format('Y-m-d').'.log'))){
     $log_file = fopen('./log/post_worker_'.(new DateTime())->format('Y-m-d').'.log', "w") or die("can't open file");
     fclose($log_file);
@@ -167,8 +185,8 @@ $router->map( "POST", "/post", function() {
   $service = new Google_Service_YouTube($google_client);*/
 
   $woocommerce = new Client(
-    'http://zeroaqua.com', 
-    'ck_1991e463567a15c79c59ad9539880b27538e3d58', 
+    'http://zeroaqua.com',
+    'ck_1991e463567a15c79c59ad9539880b27538e3d58',
     'cs_7ea706d48b56b33bd146edda1aa2ff2226cfac37',
     [
       'version' => 'wc/v3',
@@ -177,6 +195,7 @@ $router->map( "POST", "/post", function() {
     ]
   );
 
+  $tiktok_username = '@buybettaonline';
   $skus = [];
   $meta_datas = [];
   $tags = [];
@@ -201,6 +220,8 @@ $router->map( "POST", "/post", function() {
 
   $color_str = '';
   $color_str_comma = '';
+
+  $tiktok_url = '';
 
   foreach($_POST as $key=>$value)
   {
@@ -339,6 +360,9 @@ $router->map( "POST", "/post", function() {
           array_push($tags, ['id' => 67]);
         }
         break;
+      case 'tiktok_url':
+        $tiktok_url = $value;
+        break;
     }
   }
 
@@ -409,7 +433,7 @@ $router->map( "POST", "/post", function() {
       $yahoo_shopping_price = 2980;
     }else if($premium && ($gender == 1 || $gender == 2)){ //Premium on (male or female)
       $regular_price = 55;
-      $sale_price = 45.95;
+      $sale_price = 49.95;
       $regular_price_jpy = 5500;
       $sale_price_jpy = 4980;
       $regular_price_thb = 1450;
@@ -451,7 +475,7 @@ $router->map( "POST", "/post", function() {
   $sale_price_dates_to_jpy = '';
 
   $price_method_thb = 'manual';
-  $sale_price_thb = $sale_price_thb > 0 ? $sale_price_thb : '';
+  $sale_price_thb = '';
   $price_thb = $sale_price_thb > 0 ? $sale_price_thb : $regular_price_thb;
   $sale_price_dates_thb = 'manual';
   $sale_price_dates_from_thb = '';
@@ -545,11 +569,11 @@ $router->map( "POST", "/post", function() {
       'value' => $yahoo_shopping_price
     ]);
   }
-  
+
   $type_str = '';
   switch($type){
     case 15:
-      $type_str = ' Prakat';
+      $type_str = ' Plakat';
       break;
     case 49:
       $type_str = ' Half Moon';
@@ -625,6 +649,7 @@ $router->map( "POST", "/post", function() {
 
   $images = [];
   $videos = [];
+  $youtube_description_names = [];
   $img_count = 0;
   $vid_count = 0;
   $description = '';
@@ -636,7 +661,7 @@ $router->map( "POST", "/post", function() {
     $data = [
       'sku' => $sku_str
     ];
-  
+
     $res = $woocommerce->get('products', $data);
     //echo $sku_str . "\n";
     //echo count($res) . "\n";
@@ -654,13 +679,35 @@ $router->map( "POST", "/post", function() {
 
   foreach($_FILES as $file)
   {
+    /*$slug = 'Aquarium-Live-Betta-Fish';
+    if($type_str != ''){
+      $slug = $slug.'-'.ltrim($type_str, ' ');
+    }
+    if($nickname_str != ''){
+      $slug = $slug.'-'.ltrim($nickname_str, ' ');
+    }
+    if($gender_str != ''){
+      $slug = $slug.'-'.ltrim($gender_str, ' ');
+    }
+    if($color_str != ''){
+      $slug = $slug.'-'.ltrim($color_str, ' ');
+    }
+    $slug = $slug.'-'.$sku_main;*/
+
     if(preg_match('/^([a-zA-Z0-9\s_\\.\-:])+(.mp4|.mov)$/', strtolower($file['name']))){
       Analog::log('upload_video.'.var_export($file, true));
 
       $res = \Cloudinary\Uploader::upload_large($file['tmp_name'], ['resource_type' => 'video', 'public_id' => $sku_main]);
       Analog::log('cloudinary_video_res.'.var_export($res, true));
 
+      $color_str_youtube = '';
+      if($color_str != ''){
+        $color_str_youtube = $color_str.' Color';
+      }
+      $youtube_description_name = ltrim($type_str,' ').' Betta'.$nickname_str.' Fish'.$gender_str.$color_str_youtube;
+
       array_push($videos, $res['url']);
+      array_push($youtube_description_names, $youtube_description_name);
 
       /*// Define the $video object, which will be uploaded as the request body.
       $video = new Google_Service_YouTube_Video();
@@ -668,7 +715,37 @@ $router->map( "POST", "/post", function() {
       // Add 'snippet' object to the $video object.
       $videoSnippet = new Google_Service_YouTube_VideoSnippet();
       $videoSnippet->setCategoryId('15');
-      $videoSnippet->setTitle('#shorts Betta Aquarium ベタ 熱帯魚 ' . $sku_main);
+      $videoSnippet->setTitle('☆SALE☆ Betta Fish #shorts #aquarium #ベタ No:'.$sku_main);
+      $color_str_youtube = '';
+      if($color_str != ''){
+        $color_str_youtube = $color_str.' Color';
+      }
+      $videoSnippet->setDescription(ltrim($type_str,' ').' Betta'.$nickname_str.' Fish'.$gender_str.$color_str_youtube.'
+
+100% D.O.A. Money Back Guarantee
+
+Online Store:
+https://zeroaqua.com/product/'.$slug.'
+
+
+-----
+
+Responsibility:
+This video is posted by ZEROAQUA (zeroaqua.com)
+
+Registered Business in Thailand
+Shipping Betta Fish to US, UK, EU, SG, JP
+
+*Request us to add shipping to your region.
+(Business Discount Available)
+
+Email: info@zeroaqua.com
+
+Terms:
+https://zeroaqua.com/Terms-of-Use/
+
+Privacy Policy:
+https://zeroaqua.com/privacy-policy/');
       $video->setSnippet($videoSnippet);
 
       // Add 'status' object to the $video object.
@@ -693,8 +770,8 @@ $router->map( "POST", "/post", function() {
       Analog::log('upload_img.'.var_export($file, true));
 
       $img_count = $img_count + 1;
-        
-      $res = \Cloudinary\Uploader::upload_large($file['tmp_name'], ['resource_type' => 'image', 'public_id' => $sku_main.'-'.$img_count, 'width' => 490, 'height' => 490, 'crop' => 'fit']);
+
+      $res = \Cloudinary\Uploader::upload_large($file['tmp_name'], ['resource_type' => 'image', 'public_id' => $sku_main.'-'.$img_count, 'width' => 1080, 'height' => 1080, 'crop' => 'fit']);
       Analog::log('cloudinary_img_res.'.var_export($res, true));
       array_push($images, ['src' => $res['url']]);
     }
@@ -703,6 +780,19 @@ $router->map( "POST", "/post", function() {
   /*if($vid_count > 0){
     $description = $description . '*No color enhancement filters applied to the footage, recorded under white led lights.';
   }*/
+
+  if($tiktok_url != ''){
+    $headers = get_headers($tiktok_url, 1);
+    $full_url = $headers['Location'];
+    preg_match_all('/\/video\/([\d]*)/', $full_url, $out);
+    if(is_array($out)){
+      if(count($out) > 1){
+        $tiktok_video_id = $out[1][0];
+        $description = $description . '<blockquote class="tiktok-embed" cite="https://www.tiktok.com/'.$tiktok_username.'/video/'.$tiktok_video_id.'" data-video-id="'.$tiktok_video_id.'" style="max-width: 605px;min-width: 325px;"><section></section></blockquote>';
+      }
+    }
+  }
+
   $description = $description . '<div class="ms--167">
 <div class="row top-md center-md center-sm center-xs">
     <div class="col-md-2 col-sm-12 col-xs-12 mobile-w50p">
@@ -805,14 +895,14 @@ $router->map( "POST", "/post", function() {
 
   $products = [];
   foreach($skus as $sku){
-    $sku_bool = false;
+    /*$sku_bool = false;
     $sku_count = 1;
     $sku_str = $sku;
     while(!$sku_bool){
       $data = [
         'sku' => $sku_str
       ];
-  
+
       $res = $woocommerce->get('products', $data);
       //echo $sku_str . "\n";
       //echo count($res) . "\n";
@@ -824,12 +914,28 @@ $router->map( "POST", "/post", function() {
         $sku_count = $sku_count + 1;
         $sku_str = $sku . $sku_count;
       }
+    }*/
+
+    $slug = 'Aquarium-Live-Betta-Fish';
+    if($type_str != ''){
+      $slug = $slug.'-'.ltrim($type_str, ' ');
     }
+    if($nickname_str != ''){
+      $slug = $slug.'-'.ltrim($nickname_str, ' ');
+    }
+    if($gender_str != ''){
+      $slug = $slug.'-'.ltrim($gender_str, ' ');
+    }
+    if($color_str != ''){
+      $slug = $slug.'-'.ltrim($color_str, ' ');
+    }
+    $slug = $slug;
+    $slug = str_replace(' ', '-', $slug);
 
     $data = [
-      'name' => 'Aquarium Live Betta Fish' . $type_str . $nickname_str . $gender_str . $color_str,
+      'name' => 'Betta Aquarium Fish' . $type_str . $nickname_str . $gender_str . $color_str,
       'sku' => $sku,
-      'slug' => 'Aquarium-Live-Betta-Fish-'.$type_str.'-'.$nickname_str.'-'.$gender_str.'-'.$color_str.'-'.$sku,
+      'slug' => $slug,
       'type' => 'simple',
       'description' => $description,
       'short_description' => '<div class="za-short-description"><i class="fas fa-heart fa-lg text-heart"></i> 100% No-Risk Money Back Guarantee! You are fully protected by our D.O.A. 100% Money Back Guarantee.</div>',
@@ -860,10 +966,12 @@ $router->map( "POST", "/post", function() {
 
   $queue_data = [
     'videos' => $videos,
+    'youtube_description_names' => $youtube_description_names,
     'products' => $products
   ];
 
-  $client = new SimpleClient('file:///home/u892-pnwjixzcfqyf/www/zeroaqua.com/public_html/post/foo/bar');
+  //$client = new SimpleClient('file:///home/u892-pnwjixzcfqyf/www/zeroaqua.com/public_html/post/foo/bar');
+  $client = new SimpleClient('file:///var/www/home/post/foo/bar');
   $client->sendEvent('post', $queue_data);
 
   echo 'success';
@@ -874,8 +982,10 @@ $match = $router->match();
 
 // call closure or throw 404 status
 if( is_array($match) && is_callable( $match['target'] ) ) {
-  call_user_func_array( $match['target'], $match['params'] ); 
+  Analog::log('match');
+  call_user_func_array( $match['target'], $match['params'] );
 } else {
+  Analog::log('not match');
   // no route was matched
   header( $_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
 }

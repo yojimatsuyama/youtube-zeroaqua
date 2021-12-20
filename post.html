@@ -84,7 +84,7 @@
                   </div>
                 </div>
                 -->
-              
+
               </div>
 
               <!-- code from: https://bootsnipp.com/snippets/D7MvX -->
@@ -93,14 +93,14 @@
                 post to https://cloudinary.com/ then to youtube
                 its important to post to cloudinary first because download via url doesnt work on cludinary from you tube because youtube doesnt give mp4 format
 
-                we need to use mp 4 for ebay positng, and show youtube on website and for yahoo 
+                we need to use mp 4 for ebay positng, and show youtube on website and for yahoo
 
                 for cloudinary needs to be find it via sku
 
                 multiple people may use /post page
-                let the user submit when upload is completed to cloudinary, posting to youtube, inserting it to product description can be done at the backend. queue the items in case multiple submit at same time. 
+                let the user submit when upload is completed to cloudinary, posting to youtube, inserting it to product description can be done at the backend. queue the items in case multiple submit at same time.
 
-                Be able to drag and move place of images 
+                Be able to drag and move place of images
                 Be able to deleet images
                 resize image to 490 x 490
               -->
@@ -179,7 +179,7 @@
                   <!-- Note:
                     Premium off (male or female):
                       woocommerce - regular price: 35.00 sale price: 29.95 | JPY: Regular price: 3500 Sales price: 2980 | THB: Regular price: regular price: 350
-                      
+
                       *custom filed*
                       ebay_us | start price: 9.95 buy now price: 35.00
                       yahoo_auction | start price: 980 buy now price: 3500
@@ -290,13 +290,24 @@
                   <div class="input-group-append">
                     <span class="input-group-text" id="basic-addon2">เดือน (month)</span>
                     <!-- Note:
-                      backdate and record brithday ex: if age = 1 , save currecnt date - 30 days 
+                      backdate and record brithday ex: if age = 1 , save currecnt date - 30 days
                     -->
                   </div>
                 </div>
               </div>
 
-              <div class="container">
+              <div class="container mb-200">
+                <div class="row">
+                  <div class="col-md-4">
+                    <h2>tiktok url</h2>
+                    <div class="input-group mb-3">
+                      <input name="tiktok_url" type="text" class="form-control" placeholder="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="container mb-200">
                 <div class="row">
                   <div class="col-md-3 submit">
                     <input type="submit" class="btn btn-primary"></input>
@@ -307,6 +318,38 @@
           </div>
         </form>
       </main>
+
+<div class="col-center" style="margin-bottom:20px" width="50%">
+<button onclick="myFunction()">Agree to Terms of Use & Privacy Policy</button>
+</div>
+
+          <div id="myDIV" class="container">
+            <div class="row">
+              <div class="col-md-8 offset-md-2 col-xs-12 ta-center">
+                <h3>API Client Terms of Use and Privacy Policies</h3>
+                <p>This website use YouTube API Servcie to collect data to authorize access to YouTube from this page. By using this website you agree to YouTube's Terms of Service (<a href="https://www.youtube.com/t/terms">https://www.youtube.com/t/terms</a>) and Google Privacy Policy (<a href="http://www.google.com/policies/privacy">http://www.google.com/policies/privacy</a>) You can revoke data collected by Youtube API, find more information at (<a href="https://security.google.com/settings/security/permissions">https://security.google.com/settings/security/permissions</a>)
+              </div>
+            </div>
+          </div>
+
+<script>
+function myFunction() {
+  var x = document.getElementById("myDIV");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+
+      <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+          <p class="text-muted">ZEROAQUA :: <a href="https://zeroaqua.com/Terms-of-Use/">Terms of Use</a> | <a href="https://zeroaqua.com/privacy-policy/">Pricacy Policy</a></p>
+        </div>
+      </footer>
+
     </div>
   </div>
 
@@ -323,7 +366,7 @@
     src="https://code.jquery.com/jquery-3.6.0.js"
     integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"></script>
-    
+
   <!--script src="js/post.js"></script-->
   <!--script src="js/dashboard.js"></script-->
 
@@ -339,15 +382,15 @@
         for(var i = 0; i < document.getElementById("upload").files.length; i++){
           formData.append("file" + i, document.getElementById("upload").files[i]);
         }
-        
-        req.open("POST", 'post');
+
+        req.open("POST", 'wordpress');
         req.send(formData);
 
         req.onreadystatechange = function() {
           if (req.readyState == XMLHttpRequest.DONE) {
             $(".loading").hide();
             console.log(req.responseText);
-            if(req.responseText == 'success'){
+            if(req.responseText.trim() == 'success'){
               $('#form')[0].reset();
               resetFile();
               $('.toast-body').text('success');
@@ -499,12 +542,12 @@
       function allowDrop(ev) {
         ev.preventDefault();
       }
-      
+
       window.drag = drag;
       function drag(ev, index) {
         ev.dataTransfer.setData("index", index);
       }
-      
+
       window.drop = drop;
       function drop(ev, index) {
         ev.preventDefault();
@@ -722,52 +765,52 @@
 </html>
 
 <!-- other parameters on product data
-	- permalink - zeroaqua.com/product/sku
-	- simple product
-	- manage stock - tick
-	- stock qty 1
-	- allow backorders - do not allow
-	- low stock threshold store-wide threshold (0)
-	- sold individually - tick
-	
-	- linked products - none
-	- Custom fields (show on right side of image with other elemets such as category and tags)
-		- Category | (already shown)
-		- Type | selected value + $nickname if any
-		- Gender | selected value
-		- Age | selected value
-		- Color | selected value (allow multiple)
-	- advaned - none
-	- shipping
-	- weight 200g
-	- size 10cm x 20cm x 6cm
+        - permalink - zeroaqua.com/product/sku
+        - simple product
+        - manage stock - tick
+        - stock qty 1
+        - allow backorders - do not allow
+        - low stock threshold store-wide threshold (0)
+        - sold individually - tick
 
-	- add category
-		<option selected>Prakat</option> -> Prakat (HMPK)
-		<option value="1">Half Moon</option> -> Half Moon
-		<option value="2">Crowntail</option> -> Crowntail
-		<option value="3">Dumbo</option> -> Dumbo
-		<option value="3">Wild</option> -> Wild
-		Pair -> Pair
-		<option value="1">Nemo</option> -> Nemo Koi Candy
-		<option value="2">Nemo Candy Galaxy</option> -> Nemo Koi Candy Galaxy
-		<option value="3">Black Samurai</option> -> Black Samurai
-		<option value="3">Avatar</option> -> Avatar
-		<option value="3">Alien</option> -> Alien
-		Premium -> Premium 
+        - linked products - none
+        - Custom fields (show on right side of image with other elemets such as category and tags)
+                - Category | (already shown)
+                - Type | selected value + $nickname if any
+                - Gender | selected value
+                - Age | selected value
+                - Color | selected value (allow multiple)
+        - advaned - none
+        - shipping
+        - weight 200g
+        - size 10cm x 20cm x 6cm
 
-	- product short description
-		EN: 100% DOA Money Back Guarantee! Shipping Fee Include Transshipment and Delivery to Your Door Step
-		JP: 【現地直送でも安心】 100%死着保証! 送料には国際発送 + 税関処理 + 国内発送全ての料金が含まれています。  
-	
-	- Generate title:
-		EN: Betta + $type + $nickname (if any) + $gender + $color + Aquarium Live Fish
-		JP: 【現地直送】 ベタ + $type + $nickname (if any) + $gender + $color
+        - add category
+                <option selected>Prakat</option> -> Prakat (HMPK)
+                <option value="1">Half Moon</option> -> Half Moon
+                <option value="2">Crowntail</option> -> Crowntail
+                <option value="3">Dumbo</option> -> Dumbo
+                <option value="3">Wild</option> -> Wild
+                Pair -> Pair
+                <option value="1">Nemo</option> -> Nemo Koi Candy
+                <option value="2">Nemo Candy Galaxy</option> -> Nemo Koi Candy Galaxy
+                <option value="3">Black Samurai</option> -> Black Samurai
+                <option value="3">Avatar</option> -> Avatar
+                <option value="3">Alien</option> -> Alien
+                Premium -> Premium
 
-	- youtube title:
-		#shorts Betta Aquarium ベタ 熱帯魚 + $sku
+        - product short description
+                EN: 100% DOA Money Back Guarantee! Shipping Fee Include Transshipment and Delivery to Your Door Step
+                JP: 【現地直送でも安心】 100%死着保証! 送料には国際発送 + 税関処理 + 国内発送全ての料金が含まれています。
 
-	- Generate description
+        - Generate title:
+                EN: Betta + $type + $nickname (if any) + $gender + $color + Aquarium Live Fish
+                JP: 【現地直送】 ベタ + $type + $nickname (if any) + $gender + $color
 
-	- other: fetch next shipping date from departure database and insert to description "Next Shipping" Section
+        - youtube title:
+                #shorts Betta Aquarium ベタ 熱帯魚 + $sku
+
+        - Generate description
+
+        - other: fetch next shipping date from departure database and insert to description "Next Shipping" Section
 -->
