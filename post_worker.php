@@ -17,6 +17,7 @@ include __DIR__.'/vendor/autoload.php';
 $client = new SimpleClient('file:///var/www/home/post/foo/bar');
 
 $client->bindTopic('post', function(Message $message) {
+  sleep(1);
   Analog::handler(File::init('/var/www/home/post/log/post_worker_'.(new DateTime())->format('Y-m-d').'.log'));
   Analog::log('test');
   $google_client = new Google_Client();
@@ -29,7 +30,7 @@ $client->bindTopic('post', function(Message $message) {
   $service = new Google_Service_YouTube($google_client);
 
   $woocommerce = new Client(
-    'http://zeroaqua.com',
+    'https://zeroaqua.com',
     'ck_1991e463567a15c79c59ad9539880b27538e3d58',
     'cs_7ea706d48b56b33bd146edda1aa2ff2226cfac37',
     [
@@ -43,6 +44,8 @@ $client->bindTopic('post', function(Message $message) {
   Analog::log('data.'.var_export($data, true));
   $videos = $data->videos;
   $youtube_description_names = $data->youtube_description_names;
+  $youtube_title_names = $data->youtube_title_names;
+  $post_to_youtube = $data->post_to_youtube;
   $products = $data->products;
   $sku = $products[0]->sku;
 
@@ -89,36 +92,79 @@ $client->bindTopic('post', function(Message $message) {
       $tmp_slug = str_replace(' ', '-', $tmp_slug);
       $slug = $tmp_slug;
 
+      $update_data = [
+        'slug' => $tmp_slug
+      ];
+      $res = $woocommerce->put('products/'.$woocommerce_id, $update_data);
+      Analog::log('woocommerce_update_res.'.var_export($res, true));
+
       /*$product->slug = $product->slug.'-'.$sku;
       $product->slug = str_replace(' ', '-', $product->slug);
       $slug = $product->slug;*/
 
       foreach($videos as $video_url)
       {
-        Analog::log('name.'.$youtube_description_names[$vid_count]);
+        if($post_to_youtube == 1) { //schedule
+          $mysqli = new mysqli('localhost', 'zeroaqua-post', '%)?t`x6>5L4Vk5sJ', 'zeroaqua');
+  
+          if($mysqli->connect_errno){
+            die(json_encode(array('message' => 'Failed to connect to MySQL: ' . $mysqli->connect_error, 'code' => 500)));
+          }
 
-        if($google_client->isAccessTokenExpired()) {
-          Analog::log('refresh_google_api_access_token');
-          $token = json_decode(file_get_contents('/var/www/home/post/youtube_accesstoken.txt'));
-          $google_client->refreshToken($token->refresh_token);
-          $token = $google_client->getAccessToken();
-          file_put_contents('/var/www/home/post/youtube_accesstoken.txt', json_encode($token));
+          if($result = $mysqli->query('INSERT INTO youtube_queues (sku,title,description_name,woocommerce_id) VALUE ("'.$sku.'","'.$youtube_title_names[$vid_count].'","'.$youtube_description_names[$vid_count].'","'.$woocommerce_id.'")')){
+            
+          }else{
+            die(json_encode(array('message' => 'Error updating record: ' . $mysqli->error, 'code' => 500)));
+          }
+
+          //$result->free_result();
+          $mysqli->close();
         }
+        elseif($post_to_youtube == 2){ //post now
+          //queue
+          $mysqli = new mysqli('localhost', 'zeroaqua-post', '%)?t`x6>5L4Vk5sJ', 'zeroaqua');
+  
+          if($mysqli->connect_errno){
+            die(json_encode(array('message' => 'Failed to connect to MySQL: ' . $mysqli->connect_error, 'code' => 500)));
+          }
 
-        // Define the $video object, which will be uploaded as the request body.
-        $video = new Google_Service_YouTube_Video();
+          if($result = $mysqli->query('INSERT INTO youtube_queues (sku,title,description_name,woocommerce_id) VALUE ("'.$sku.'","'.$youtube_title_names[$vid_count].'","'.$youtube_description_names[$vid_count].'","'.$woocommerce_id.'")')){
+            
+          }else{
+            die(json_encode(array('message' => 'Error updating record: ' . $mysqli->error, 'code' => 500)));
+          }
 
-        // Add 'snippet' object to the $video object.
-        $videoSnippet = new Google_Service_YouTube_VideoSnippet();
-        $videoSnippet->setCategoryId('15');
-        //$videoSnippet->setTitle('#shorts Betta Aquarium ベタ 熱帯魚 ' . $sku);
-        //$videoSnippet->setTitle('Buy Betta Online - 100% DOA Money Back Guarantee #ベタ通販');
-        $videoSnippet->setTitle('☆SALE☆ Betta Fish #shorts #aquarium #ベタ No:'.$sku);
-        $color_str_youtube = '';
-        if($color_str != ''){
-          $color_str_youtube = $color_str.' Color';
-        }
-        $videoSnippet->setDescription($youtube_description_names[$vid_count].'
+          //$result->free_result();
+          $mysqli->close();
+
+          Analog::log('description_name.'.$youtube_description_names[$vid_count]);
+          Analog::log('title_name.'.$youtube_title_names[$vid_count].' No:'.$sku);
+
+          if($google_client->isAccessTokenExpired()) {
+            Analog::log('refresh_google_api_access_token');
+            $token = json_decode(file_get_contents('/var/www/home/post/youtube_accesstoken.txt'));
+            $google_client->refreshToken($token->refresh_token);
+            $token = $google_client->getAccessToken();
+            file_put_contents('/var/www/home/post/youtube_accesstoken.txt', json_encode($token));
+          }
+
+          // Define the $video object, which will be uploaded as the request body.
+          $video = new Google_Service_YouTube_Video();
+
+          // Add 'snippet' object to the $video object.
+          $videoSnippet = new Google_Service_YouTube_VideoSnippet();
+          $videoSnippet->setCategoryId('15');
+          //$videoSnippet->setTitle('#shorts Betta Aquarium ベタ 熱帯魚 ' . $sku);
+          //$videoSnippet->setTitle('Buy Betta Online - 100% DOA Money Back Guarantee #ベタ通販');
+          //$videoSnippet->setTitle('☆SALE☆ Betta Fish #shorts #aquarium #ベタ No:'.$sku);
+          $videoSnippet->setTitle($youtube_title_names[$vid_count].' No:'.$sku);
+
+          /*$color_str_youtube = '';
+          if($color_str != ''){
+            $color_str_youtube = $color_str.' Color';
+          }*/
+
+          $videoSnippet->setDescription($youtube_description_names[$vid_count].'
 
 100% D.O.A. Money Back Guarantee
 
@@ -145,39 +191,61 @@ https://zeroaqua.com/Terms-of-Use/
 
 Privacy Policy:
 https://zeroaqua.com/privacy-policy/');
-        $video->setSnippet($videoSnippet);
+          $video->setSnippet($videoSnippet);
 
-        // Add 'status' object to the $video object.
-        $videoStatus = new Google_Service_YouTube_VideoStatus();
-        $videoStatus->setPrivacyStatus('public');
-        $video->setStatus($videoStatus);
+          // Add 'status' object to the $video object.
+          $videoStatus = new Google_Service_YouTube_VideoStatus();
+          $videoStatus->setPrivacyStatus('public');
+          $video->setStatus($videoStatus);
 
-        $response = $service->videos->insert(
-          'snippet,status',
-          $video,
-          array(
-            'data' => file_get_contents($video_url),
-            'mimeType' => 'application/octet-stream',
-            'uploadType' => 'multipart'
-          )
-        );
-        $description = $description . '<div class="video-holder">[iframe src="http://www.youtube.com/embed/'.$response['id'].'" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"]</div>';
-        $vid_count = $vid_count + 1;
-        Analog::log('google_api_res.'.var_export($response, true));
+          $response = $service->videos->insert(
+            'snippet,status',
+            $video,
+            array(
+              'data' => file_get_contents($video_url),
+              'mimeType' => 'application/octet-stream',
+              'uploadType' => 'multipart'
+            )
+          );
+
+          Analog::log('google_api_res.'.var_export($response, true));
+
+          if(array_key_exists('id', $response)){
+            if($response['id'] != NULL) {
+              //update queue
+              $mysqli = new mysqli('localhost', 'zeroaqua-post', '%)?t`x6>5L4Vk5sJ', 'zeroaqua');
+      
+              if($mysqli->connect_errno){
+                die(json_encode(array('message' => 'Failed to connect to MySQL: ' . $mysqli->connect_error, 'code' => 500)));
+              }
+
+              if($result = $mysqli->query('UPDATE youtube_queues SET posted = true WHERE sku = "'.$sku.'" AND title = "'.$youtube_title_names[$vid_count].'" AND description_name = "'.$youtube_description_names[$vid_count].'" AND woocommerce_id = "'.$woocommerce_id.'"')){
+          
+              }else{
+                die(json_encode(array('message' => 'Error updating record: ' . $mysqli->error, 'code' => 500)));
+              }
+
+              //$result->free_result();
+              $mysqli->close();
+
+              $description = $description . '<div class="video-holder">[iframe src="http://www.youtube.com/embed/'.$response['id'].'" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"]</div>';
+              $vid_count = $vid_count + 1;
+            }
+          }
+        }
       }
 
       if($vid_count > 0){
         $description = $description . '<span ="text-secondary">*No color enhancement filters applied to the footage, recorded under white led lights.</span>';
       }
 
-      /*$product->description = $description . $product->description;
-      $res = $woocommerce->post('products' ,$product);
-      Analog::log('woocommerce_res.'.var_export($res, true));*/
+      //$product->description = $description . $product->description;
+      //$res = $woocommerce->post('products' ,$product);
+      //Analog::log('woocommerce_res.'.var_export($res, true));
 
       $tmp_description = $description . $tmp_description;
       $update_data = [
-        'description' => $tmp_description,
-        'slug' => $tmp_slug
+        'description' => $tmp_description
       ];
       $res = $woocommerce->put('products/'.$woocommerce_id, $update_data);
       Analog::log('woocommerce_update_res.'.var_export($res, true));
