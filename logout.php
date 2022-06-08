@@ -1,6 +1,9 @@
 <?php
+// Include config file
+require_once "config.php";
+
 // Initialize the session
-session_save_path("/tmp");
+session_save_path(SESSION_PATH);
 session_start();
  
 // Unset all of the session variables
@@ -10,6 +13,6 @@ $_SESSION = array();
 session_destroy();
  
 // Redirect to login page
-header("location: https://cms.zeroaqua.com/post/login/");
+header("location: ".URL_LOGIN);
 exit;
 ?>

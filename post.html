@@ -46,7 +46,8 @@
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">/post</h1>
-            <p><a href="#">logout</a></p>
+            <!--p><a href="https://cms.zeroaqua.com/post/logout/">logout</a></p-->
+            <p><a href="http://localhost/post/logout/">logout</a></p>
           </div>
 
 <!--
@@ -84,7 +85,7 @@
                   </div>
                 </div>
                 -->
-
+              
               </div>
 
               <!-- code from: https://bootsnipp.com/snippets/D7MvX -->
@@ -93,14 +94,14 @@
                 post to https://cloudinary.com/ then to youtube
                 its important to post to cloudinary first because download via url doesnt work on cludinary from you tube because youtube doesnt give mp4 format
 
-                we need to use mp 4 for ebay positng, and show youtube on website and for yahoo
+                we need to use mp 4 for ebay positng, and show youtube on website and for yahoo 
 
                 for cloudinary needs to be find it via sku
 
                 multiple people may use /post page
-                let the user submit when upload is completed to cloudinary, posting to youtube, inserting it to product description can be done at the backend. queue the items in case multiple submit at same time.
+                let the user submit when upload is completed to cloudinary, posting to youtube, inserting it to product description can be done at the backend. queue the items in case multiple submit at same time. 
 
-                Be able to drag and move place of images
+                Be able to drag and move place of images 
                 Be able to deleet images
                 resize image to 490 x 490
               -->
@@ -171,7 +172,33 @@
                 </div>
               </div>
 
-              <div class="col-md-2">
+              <div class="col-md-4">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">ราคา (price)</span>
+                  </div>
+                  <select id="price" name="price" class="form-select" aria-label="Default select example">
+                    <option value="1980" selected>1980</option>
+                    <option value="2500">2500</option>
+                    <option value="3980">3980</option>
+                    <option value="7980">7980</option>
+                    <option value="15000">15000</option>
+                    <option value="30000">30000</option>
+                  </select> 
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">buy now price</span>
+                  </div>
+                  <input name="buy_now_price" type="number" class="form-control" placeholder=""
+                    aria-label="id-buy_now_price" aria-describedby="basic-addon1">
+                </div>
+              </div>
+
+              <div class="col-md-2 d-none">
                 <div class="form-check form-switch">
                   <input name="premium" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
                   <label class="form-check-label" for="flexSwitchCheckDefault">พรีเมี่ยม (Premium)</label>
@@ -179,7 +206,7 @@
                   <!-- Note:
                     Premium off (male or female):
                       woocommerce - regular price: 35.00 sale price: 29.95 | JPY: Regular price: 3500 Sales price: 2980 | THB: Regular price: regular price: 350
-
+                      
                       *custom filed*
                       ebay_us | start price: 9.95 buy now price: 35.00
                       yahoo_auction | start price: 980 buy now price: 3500
@@ -214,7 +241,7 @@
                   -->
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-3 d-none">
                 <div class="form-check form-switch">
                   <input name="penny" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault2">
                   <label class="form-check-label" for="flexSwitchCheckDefault2">เริ่ม1บาท (Penny Start)</label>
@@ -252,11 +279,14 @@
                 <h2>พิมพ์ (type)</h2>
 
                 <select name="type" class="form-select" aria-label="Default select example">
-                  <option value="15" selected>ปลากัด (Prakat)</option>
+                  <option value="15" selected>ปลากัด (Plakat)</option>
                   <option value="49">ปลากัดหางพระจันทร์ครึ่งดวง (Half Moon)</option>
                   <option value="50">ปลากัดหางมงกุฎ (Crowntail)</option>
                   <option value="51">ปลากัดหูช้าง (Dumbo)</option>
-                  <option value="78">ปลากัดทุ่ง (Wild)</option>
+                  <option value="78">ปลากัดเอเลี่ยน (Wild Alien)</option>
+                  <option value="79">ปลากัดหูช้างหางพระจันทร์ครึ่งดวง (Dumbo Half Moon)</option>
+                  <option value="80">ปลากัดหางคู่ (Double Tail)</option>
+                  <option value="123">ปลากัดอีสาน (Isan)</option>
                 </select>
 
               </div>
@@ -268,15 +298,13 @@
                   <option value="54">นีโม่ (Nemo)</option>
                   <option value="55">นีโม่กาแลคซี่ (Nemo Galaxy)</option>
                   <option value="73">มังกร (Dragon)</option>
-                  <option value="56">แบล็คซามูไร (Black Samurai)</option>
                   <option value="57">อวตาร (Avatar)</option>
-                  <option value="58">เอเลี่ยน (Alien)</option>
                 </select>
               </div>
               <div class="col-md-3">
                 <h2>เพศ (gender)</h2>
 
-                <select name="gender" class="form-select" aria-label="Default select example">
+                <select id="gender" name="gender" class="form-select" aria-label="Default select example">
                   <option value="1" selected>เพศผู้ (Male)</option>
                   <option value="2">เพศเมีย (Female)</option>
                   <option value="3">คู่ (Pair)</option>
@@ -290,13 +318,26 @@
                   <div class="input-group-append">
                     <span class="input-group-text" id="basic-addon2">เดือน (month)</span>
                     <!-- Note:
-                      backdate and record brithday ex: if age = 1 , save currecnt date - 30 days
+                      backdate and record brithday ex: if age = 1 , save currecnt date - 30 days 
                     -->
                   </div>
                 </div>
               </div>
 
-              <div class="container mb-200">
+              <div class="container mb-200 d-none">
+                <div class="row">
+                  <div class="col-md-3">
+                    <h2>youtube</h2>
+
+                    <select name="post_to_youtube" class="form-select">
+                      <!--option value="1" selected>Schedule</option-->
+                      <option value="2">Post Now</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!--div class="container mb-200">
                 <div class="row">
                   <div class="col-md-4">
                     <h2>tiktok url</h2>
@@ -305,7 +346,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div-->
 
               <div class="container mb-200">
                 <div class="row">
@@ -319,18 +360,18 @@
         </form>
       </main>
 
-<div class="col-center" style="margin-bottom:20px" width="50%">
-<button onclick="myFunction()">Agree to Terms of Use & Privacy Policy</button>
-</div>
+      <div class="col-center text-center" style="margin-bottom:20px;display:none;" width="50%">
+        <button onclick="myFunction()">Agree to Terms of Use & Privacy Policy</button>
+      </div>
 
-          <div id="myDIV" class="container">
-            <div class="row">
-              <div class="col-md-8 offset-md-2 col-xs-12 ta-center">
-                <h3>API Client Terms of Use and Privacy Policies</h3>
-                <p>This website use YouTube API Servcie to collect data to authorize access to YouTube from this page. By using this website you agree to YouTube's Terms of Service (<a href="https://www.youtube.com/t/terms">https://www.youtube.com/t/terms</a>) and Google Privacy Policy (<a href="http://www.google.com/policies/privacy">http://www.google.com/policies/privacy</a>) You can revoke data collected by Youtube API, find more information at (<a href="https://security.google.com/settings/security/permissions">https://security.google.com/settings/security/permissions</a>)
-              </div>
-            </div>
+      <div id="myDIV" class="container" style="display:none;">
+        <div class="row">
+          <div class="col-md-8 offset-md-2 col-xs-12 ta-center">
+            <h3>API Client Terms of Use and Privacy Policies</h3>
+            <p>This website use YouTube API Servcie to collect data to authorize access to YouTube from this page. By using this website you agree to YouTube's Terms of Service (<a href="https://www.youtube.com/t/terms">https://www.youtube.com/t/terms</a>) and Google Privacy Policy (<a href="http://www.google.com/policies/privacy">http://www.google.com/policies/privacy</a>) You can revoke data collected by Youtube API, find more information at (<a href="https://security.google.com/settings/security/permissions">https://security.google.com/settings/security/permissions</a>)
           </div>
+        </div>
+      </div>
 
 <script>
 function myFunction() {
@@ -344,9 +385,9 @@ function myFunction() {
 </script>
 
 
-      <footer class="footer mt-auto py-3 bg-light">
+      <footer class="footer mt-auto py-3 bg-light" style="display:none;">
         <div class="container">
-          <p class="text-muted">ZEROAQUA :: <a href="https://zeroaqua.com/Terms-of-Use/">Terms of Use</a> | <a href="https://zeroaqua.com/privacy-policy/">Pricacy Policy</a></p>
+          <p class="text-muted text-center">ZEROAQUA :: <a href="https://zeroaqua.com/Terms-of-Use/">Terms of Use</a> | <a href="https://zeroaqua.com/privacy-policy/">Pricacy Policy</a></p>
         </div>
       </footer>
 
@@ -366,7 +407,7 @@ function myFunction() {
     src="https://code.jquery.com/jquery-3.6.0.js"
     integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"></script>
-
+    
   <!--script src="js/post.js"></script-->
   <!--script src="js/dashboard.js"></script-->
 
@@ -378,11 +419,28 @@ function myFunction() {
 
         let req = new XMLHttpRequest();
         let formData = new FormData($('#form')[0]);
+        var gender = '';
+        var price = '';
+        for (var p of formData) {
+          let name = p[0];
+          let value = p[1];
+          if(name == 'gender'){
+            gender = value;
+          }
+          if(name == 'price'){
+            price = value;
+          }
+        }
+        if(gender == 2 && price > 2500){
+          alert('Female price must be 1980 or 2500.');
+          $(".loading").hide();
+          return
+        }
 
         for(var i = 0; i < document.getElementById("upload").files.length; i++){
           formData.append("file" + i, document.getElementById("upload").files[i]);
         }
-
+        
         req.open("POST", 'wordpress');
         req.send(formData);
 
@@ -542,12 +600,12 @@ function myFunction() {
       function allowDrop(ev) {
         ev.preventDefault();
       }
-
+      
       window.drag = drag;
       function drag(ev, index) {
         ev.dataTransfer.setData("index", index);
       }
-
+      
       window.drop = drop;
       function drop(ev, index) {
         ev.preventDefault();
@@ -765,52 +823,75 @@ function myFunction() {
 </html>
 
 <!-- other parameters on product data
-        - permalink - zeroaqua.com/product/sku
-        - simple product
-        - manage stock - tick
-        - stock qty 1
-        - allow backorders - do not allow
-        - low stock threshold store-wide threshold (0)
-        - sold individually - tick
+	- permalink - zeroaqua.com/product/sku
+	- simple product
+	- manage stock - tick
+	- stock qty 1
+	- allow backorders - do not allow
+	- low stock threshold store-wide threshold (0)
+	- sold individually - tick
+	
+	- linked products - none
+	- Custom fields (show on right side of image with other elemets such as category and tags)
+		- Category | (already shown)
+		- Type | selected value + $nickname if any
+		- Gender | selected value
+		- Age | selected value
+		- Color | selected value (allow multiple)
+	- advaned - none
+	- shipping
+	- weight 200g
+	- size 10cm x 20cm x 6cm
 
-        - linked products - none
-        - Custom fields (show on right side of image with other elemets such as category and tags)
-                - Category | (already shown)
-                - Type | selected value + $nickname if any
-                - Gender | selected value
-                - Age | selected value
-                - Color | selected value (allow multiple)
-        - advaned - none
-        - shipping
-        - weight 200g
-        - size 10cm x 20cm x 6cm
+	- add category
+		<option selected>Prakat</option> -> Prakat (HMPK)
+		<option value="1">Half Moon</option> -> Half Moon
+		<option value="2">Crowntail</option> -> Crowntail
+		<option value="3">Dumbo</option> -> Dumbo
+		<option value="3">Wild</option> -> Wild
+		Pair -> Pair
+		<option value="1">Nemo</option> -> Nemo Koi Candy
+		<option value="2">Nemo Candy Galaxy</option> -> Nemo Koi Candy Galaxy
+		<option value="3">Black Samurai</option> -> Black Samurai
+		<option value="3">Avatar</option> -> Avatar
+		<option value="3">Alien</option> -> Alien
+		Premium -> Premium 
 
-        - add category
-                <option selected>Prakat</option> -> Prakat (HMPK)
-                <option value="1">Half Moon</option> -> Half Moon
-                <option value="2">Crowntail</option> -> Crowntail
-                <option value="3">Dumbo</option> -> Dumbo
-                <option value="3">Wild</option> -> Wild
-                Pair -> Pair
-                <option value="1">Nemo</option> -> Nemo Koi Candy
-                <option value="2">Nemo Candy Galaxy</option> -> Nemo Koi Candy Galaxy
-                <option value="3">Black Samurai</option> -> Black Samurai
-                <option value="3">Avatar</option> -> Avatar
-                <option value="3">Alien</option> -> Alien
-                Premium -> Premium
+	- product short description
+		EN: 100% DOA Money Back Guarantee! Shipping Fee Include Transshipment and Delivery to Your Door Step
+		JP: 【現地直送でも安心】 100%死着保証! 送料には国際発送 + 税関処理 + 国内発送全ての料金が含まれています。  
+	
+	- Generate title:
+		EN: Betta + $type + $nickname (if any) + $gender + $color + Aquarium Live Fish
+		JP: 【現地直送】 ベタ + $type + $nickname (if any) + $gender + $color
 
-        - product short description
-                EN: 100% DOA Money Back Guarantee! Shipping Fee Include Transshipment and Delivery to Your Door Step
-                JP: 【現地直送でも安心】 100%死着保証! 送料には国際発送 + 税関処理 + 国内発送全ての料金が含まれています。
+	- youtube title:
+		#shorts Betta Aquarium ベタ 熱帯魚 + $sku
 
-        - Generate title:
-                EN: Betta + $type + $nickname (if any) + $gender + $color + Aquarium Live Fish
-                JP: 【現地直送】 ベタ + $type + $nickname (if any) + $gender + $color
+	- Generate description
 
-        - youtube title:
-                #shorts Betta Aquarium ベタ 熱帯魚 + $sku
+	- other: fetch next shipping date from departure database and insert to description "Next Shipping" Section
+-->
 
-        - Generate description
+<!--
+fixed the price
 
-        - other: fetch next shipping date from departure database and insert to description "Next Shipping" Section
+Male:
+1980 | 2500
+2500 | 2980
+3980 | 4980
+3980 | 5500
+7980 | 10000
+15000 | 18000
+30000 | 35000
+Female:
+1980 | 2500
+2500 | 2980
+
+with 3980, we want to have 2 options, 4980 or 5500
+90% of 3980 will end with 4980 so that can be default
+but we want to have ability to change to 5500
+
+show 2 inputs
+first select (1980,2500,3980,7980, 15000,30000), show second input (balnk) if blank use default value (2500,2980,4980,5500,10000,18000,35000) but if there is input , that value shold be used (so ex: i can put 5500 then it will be 3980 | 5500)
 -->

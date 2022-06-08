@@ -1,19 +1,16 @@
 <?php
-// Initialize the session
-session_save_path("/tmp");
-session_start();
+// Include config file
+require_once "config.php";
 
-$redirect_url = "https://cms.zeroaqua.com/post/";
-$action_url = "https://cms.zeroaqua.com/post/login/";
+// Initialize the session
+session_save_path(SESSION_PATH);
+session_start();
 
 // Check if the user is already logged in, if yes then redirect him to welcome page
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-  header("location: ".$redirect_url);
+  header("location: ".URL_POST);
   exit;
 }
-
-// Include config file
-require_once "config.php";
 
 // Define variables and initialize with empty values
 $username = $password = "";
@@ -35,7 +32,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   } else{
     $password = trim($_POST["password"]);
   }
-    
+  
+  global $link;
+
   // Validate credentials
   if(empty($username_err) && empty($password_err)){
     // Prepare a select statement
@@ -70,7 +69,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               $_SESSION["role"] = $role;
                             
               // Redirect user to welcome page
-              header("location: ".$redirect_url);
+              header("location: ".URL_POST);
             } else{
               // Password is not valid, display a generic error message
               $login_err = "Invalid username or password.";
@@ -122,7 +121,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }        
         ?>
 
-        <form action="<?php echo $action_url ?>" method="post">
+        <form action="<?php echo URL_LOGIN ?>" method="post">
             <div class="form-group">
                 <label>Username</label>
                 <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">

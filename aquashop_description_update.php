@@ -34,7 +34,7 @@ $aquashop = new Client(
   ]
 );
 
-$date = DateTime::createFromFormat('Y-m-d', '2022-06-03');
+$date = DateTime::createFromFormat('Y-m-d', SHIPPING_DATE);
 
 update_description($aquashop, $date);
 
@@ -64,16 +64,18 @@ function update_description($aquashop, $date){
       $dow = ['日', '月', '火', '水', '木', '金', '土'];
 
       $old_prev_date = DateTime::createFromFormat('Y-m-d', $date->format('Y-m-d'));
-      $old_prev_date->modify('-15 day');
+      $old_prev_date->modify('-8 day');
       $old_date = DateTime::createFromFormat('Y-m-d', $date->format('Y-m-d'));
-      $old_date->modify('-14 day');
+      $old_date->modify('-7 day');
       $old_next_date = DateTime::createFromFormat('Y-m-d', $date->format('Y-m-d'));
-      $old_next_date->modify('-13 day');
+      $old_next_date->modify('-6 day');
       $dow = ['日', '月', '火', '水', '木', '金', '土'];
 
       $old_str = '<div>次回: '.$old_date->format('n').'月'.$old_date->format('j').'日('.$dow[$old_date->format('w')].') 千葉県より発送、<br />'.$old_prev_date->format('j').'日('.$dow[$old_prev_date->format('w')].')正午までにお支払いください。<br />(*最短'.$dow[$old_next_date->format('w')].'曜日午前着)</div>';
       $new_str = '<div>次回: '.$date->format('n').'月'.$date->format('j').'日('.$dow[$date->format('w')].') 千葉県より発送、<br />'.$prev_date->format('j').'日('.$dow[$prev_date->format('w')].')正午までにお支払いください。<br />(*最短'.$dow[$next_date->format('w')].'曜日午前着)</div>';
       $description = str_replace($old_str, $new_str, $description);
+      //Analog::log('old_str.'.var_export($old_str, true));
+      //Analog::log('new_str.'.var_export($new_str, true));
 
       $update_data = [
         'description' => $description

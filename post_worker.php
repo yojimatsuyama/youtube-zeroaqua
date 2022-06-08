@@ -164,18 +164,17 @@ $client->bindTopic('post', function(Message $message) {
             $color_str_youtube = $color_str.' Color';
           }*/
 
-          $videoSnippet->setDescription($youtube_description_names[$vid_count].'
+          $videoSnippet->setDescription('【キャンペーン実施中 | 全国どこでも送料無料】
 
-100% D.O.A. Money Back Guarantee
+全個体☆保証有り
 
-Online Store:
-https://zeroaqua.com/product/'.$slug.'
-
+複数媒体で同時に出品中、
+ご購入は早い者勝ちです！
 
 -----
 
 Responsibility:
-This video is posted by ZEROAQUA (zeroaqua.com)
+This video is posted by Aquashop(aquashop.jp)
 
 Registered Business in Thailand
 Shipping Betta Fish to US, UK, EU, SG, JP
@@ -184,13 +183,13 @@ Shipping Betta Fish to US, UK, EU, SG, JP
 (Business Discount Available)
 
 WhatsApp: 0979989788
-Email: info@zeroaqua.com
+Email: info@aquashop.com
 
 Terms:
-https://zeroaqua.com/Terms-of-Use/
+https://aquashop.jp/Terms-of-Use/
 
 Privacy Policy:
-https://zeroaqua.com/privacy-policy/');
+https://aquashop.jp/privacy-policy/');
           $video->setSnippet($videoSnippet);
 
           // Add 'status' object to the $video object.

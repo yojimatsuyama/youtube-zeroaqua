@@ -73,7 +73,7 @@ if($result = $mysqli->query('SELECT * FROM departures WHERE destination = "Japan
 $result->free_result();
 $mysqli->close();*/
 
-$date = DateTime::createFromFormat('Y-m-d', '2022-06-03');
+$date = DateTime::createFromFormat('Y-m-d', SHIPPING_DATE);
 
 $updating = false;
 

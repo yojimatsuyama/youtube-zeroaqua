@@ -12,6 +12,8 @@ require 'analog/lib/Analog.php';
 
 require_once 'vendor/autoload.php';
 
+require_once "config.php";
+
 use Automattic\WooCommerce\Client;
 use Analog\Handler\File;
 use Enqueue\SimpleClient\SimpleClient;
@@ -39,6 +41,12 @@ $router->map( "GET", "/", function() {
   check_session();
   require __DIR__ . '/post.html';
 });
+
+//to do
+/*$router->map( "POST", "/", function() {
+  Analog::log('POST /');
+  require __DIR__ . '/post.php';
+});*/
 
 $router->map( "GET", "/youtube/auth", function() {
   $client = new Google_Client();
@@ -878,7 +886,7 @@ $router->map( "POST", "/wordpress", function() {
     fclose($log_file);
   }
 
-  Analog::log('/post');
+  Analog::log('POST /wordpress');
   Analog::log('post_params.'.var_export($_POST, true));
   Analog::log('post_files.'.var_export($_FILES, true));
 
@@ -1930,7 +1938,8 @@ https://zeroaqua.com/privacy-policy/');
   ];
 
   //$client = new SimpleClient('file:///home/u892-pnwjixzcfqyf/www/zeroaqua.com/public_html/post/foo/bar');
-  $client = new SimpleClient('file:///var/www/home/post/foo/bar');
+  //$client = new SimpleClient('file:///var/www/home/post/foo/bar');
+  $client = new SimpleClient('file://C:/xampp/htdocs/post/foo/bar');
   $client->sendEvent('post', $queue_data);
   //Analog::log('queue_data.'.var_export($queue_data, true));
 
@@ -1950,10 +1959,10 @@ if( is_array($match) && is_callable( $match['target'] ) ) {
 }
 
 function check_session(){
-  session_save_path("/tmp");
+  session_save_path(SESSION_PATH);
   session_start();
   if(!(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true)){
-    header("location: https://cms.zeroaqua.com/post/login/");
+    header("location: ".URL_LOGIN);
     exit;
   }
 }

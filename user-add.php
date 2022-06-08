@@ -2,24 +2,29 @@
 // Include config file
 require_once "config.php";
  
-session_save_path("/tmp");
+// Initialize the session
+session_save_path(SESSION_PATH);
 session_start();
 
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
 $msg = "";
-$redirect_url = "https://cms.zeroaqua.com/post/";
-$action_url = "https://cms.zeroaqua.com/post/user-add/";
+
+if(!(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true)){
+  header("location: ".URL_LOGIN);
+  exit;
+}
 
 if(!(isset($_SESSION["role"]) && $_SESSION["role"] == "admin")){
-  header("location: ".$redirect_url);
+  header("location: ".URL_POST);
   exit;
 }
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
- 
+  $username = trim($_POST["username"]);
+
   // Validate username
   if(empty(trim($_POST["username"]))){
     $username_err = "Please enter a username.";
@@ -28,6 +33,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   }else{
     // Prepare a select statement
     $sql = "SELECT id FROM users WHERE username = ?";
+
+    global $link;
     
     if($stmt = mysqli_prepare($link, $sql)){
       // Bind variables to the prepared statement as parameters
@@ -79,7 +86,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // Prepare an insert statement
     $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-         
+      
+    global $link;
+
     if($stmt = mysqli_prepare($link, $sql)){
       // Bind variables to the prepared statement as parameters
       mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
@@ -132,7 +141,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">/user-add</h1>
-          <p><a href="https://cms.zeroaqua.com/post/logout/">logout</a></p>
+          <p><a href="<?php echo URL_LOGOUT; ?>">logout</a></p>
         </div>
       </div>
     </div>
@@ -144,10 +153,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <?php 
       if(!empty($msg)){
         echo '<div class="alert alert-success">' . $msg . '</div>';
-      }        
+      }
     ?>
 
-    <form action="<?php echo $action_url ?>" method="post">
+    <form action="<?php echo URL_USER_ADD ?>" method="post">
       <div class="form-group">
         <label>Username</label>
         <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
@@ -155,12 +164,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       </div>    
       <div class="form-group">
         <label>Password</label>
-        <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
+        <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>">
         <span class="invalid-feedback"><?php echo $password_err; ?></span>
       </div>
       <div class="form-group">
         <label>Confirm Password</label>
-        <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
+        <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>">
         <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
       </div>
       <div class="form-group">
